@@ -1,0 +1,32 @@
+###Get public content
+http://localhost:8080/api/test/all
+
+### Sign up
+POST http://localhost:8080/auth/signup
+content-type: application/json
+
+{
+    "username": "fa-1",
+    "email": "fa-1@example.com",
+    "password": "abc123",
+    "role": ["fullaccess"]
+}
+
+### Login
+POST http://localhost:8080/auth/signin
+content-type: application/json
+
+{
+    "username": "fa-1",
+    "password": "abc123"
+}
+
+
+### Login
+POST http://localhost:8080/auth/signin
+content-type: application/json
+
+{
+    "username": "fa-1",
+    "password": "abc123"
+}
