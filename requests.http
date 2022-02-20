@@ -21,7 +21,6 @@ content-type: application/json
     "password": "abc123"
 }
 
-
 ### Login
 POST http://localhost:8080/api/auth/signin
 content-type: application/json
@@ -30,3 +29,15 @@ content-type: application/json
     "username": "fa-1",
     "password": "abc123"
 }
+
+### Get user content
+http://localhost:8080/api/test/user
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYS0xIiwiaWF0IjoxNjQ1MzIyNjIzLCJleHAiOjE2NDU0MDkwMjN9.lOBobAAom2D2OM5hUP9nAXiUt86cR-fU4c0QD7610TilswliV8pI_5Kiu5zh9y-pm7wRfNDITAZ8pPWAOL-lNg
+
+### Get cardholder content
+http://localhost:8080/api/test/cardholder
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYS0xIiwiaWF0IjoxNjQ1MzIyNjIzLCJleHAiOjE2NDU0MDkwMjN9.lOBobAAom2D2OM5hUP9nAXiUt86cR-fU4c0QD7610TilswliV8pI_5Kiu5zh9y-pm7wRfNDITAZ8pPWAOL-lNg
+
+### Get fullaccess content
+http://localhost:8080/api/test/fullaccess
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYS0xIiwiaWF0IjoxNjQ1MzIyNjIzLCJleHAiOjE2NDU0MDkwMjN9.lOBobAAom2D2OM5hUP9nAXiUt86cR-fU4c0QD7610TilswliV8pI_5Kiu5zh9y-pm7wRfNDITAZ8pPWAOL-lNg

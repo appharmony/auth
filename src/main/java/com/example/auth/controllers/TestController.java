@@ -14,22 +14,22 @@ public class TestController {
 	public String allAccess() {
 		return "Public Content.";
 	}
-	
+
 	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('CARDHOLDER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('VIEWONLY') or hasRole('CARDHOLDER') or hasRole('FULLACCESS')")
 	public String userAccess() {
-		return "User Content.";
+		return "You are logged in";
 	}
 
-	@GetMapping("/role")
+	@GetMapping("/cardholder")
 	@PreAuthorize("hasRole('CARDHOLDER')")
-	public String moderatorAccess() {
-		return "Cardholder Board.";
+	public String cardholderAccess() {
+		return "You have cardholder access.";
 	}
 
-	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String adminAccess() {
-		return "Admin Board.";
+	@GetMapping("/fullaccess")
+	@PreAuthorize("hasRole('FULLACCESS')")
+	public String fullAccess() {
+		return "You have fullaccess.";
 	}
 }
