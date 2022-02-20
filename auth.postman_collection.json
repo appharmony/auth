@@ -175,7 +175,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "auth-LoadBa-CGBE68BBZ13X-bf0d1207c1bf57b7.elb.us-east-1.amazonaws.com:8080:8080"
+			"value": "auth-LoadBa-CGBE68BBZ13X-bf0d1207c1bf57b7.elb.us-east-1.amazonaws.com:8080"
 		}
 	]
 }
