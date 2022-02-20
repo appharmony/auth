@@ -1,7 +1,7 @@
 To run the application using Docker:
 
 0. Install Docker desktop (which includes support for Docker and Docker compose)
-   https://docs.docker.com/compose/install/
+   https://www.docker.com/products/docker-desktop
 1. Clone the project
 2. Build it using
    `./gradlew build`
@@ -12,8 +12,8 @@ To run the application using Docker:
 
 ---
 
-Postgres Management in the
-Manage postgres
+Postgres Management
+Start and Stop the DB server
 brew services start postgresql
 brew services stop postgresql
 brew services list
@@ -23,6 +23,23 @@ $ psql postgres
 
 Operations
 \l -> List all databases
-\c dbname -> connect to dynamo
+\c dbname -> connect to database dbname
 \d -> list all tables
 \d tablename -> describe table
+
+After starting the application, go inside the postgres docker container and insert the roles with these steps:
+
+Find the container ID:
+docker ps
+
+Connect to container:
+docker exec -it 05b3a3471f6f bash
+
+Connect to the DB inside the container:
+root@05b3a3471f6f:/# psql -U postgres
+
+Insert the roles:
+postgres-# INSERT INTO roles(name) VALUES('ROLE_VIEWONLY') ON CONFLICT DO NOTHING;
+postgres-# INSERT INTO roles(name) VALUES('ROLE_FULLACCESS') ON CONFLICT DO NOTHING;
+postgres-# INSERT INTO roles(name) VALUES('ROLE_CARDHOLDER') ON CONFLICT DO NOTHING;
+postgres-# \q
