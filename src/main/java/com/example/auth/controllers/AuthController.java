@@ -64,17 +64,17 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-		
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
-												 roles));
+
+		return ResponseEntity.ok(new JwtResponse(jwt,
+				userDetails.getId(),
+				userDetails.getUsername(),
+				userDetails.getEmail(),
+				roles));
 	}
 
 	@PostMapping("/signup")
@@ -93,9 +93,9 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+		User user = new User(signUpRequest.getUsername(),
+				signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		log.debug("Roles specified in the request: " + strRoles);
@@ -109,20 +109,20 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "fullaccess":
-					Role fullaccess = roleRepository.findByName(ERole.ROLE_FULLACCESS)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(fullaccess);
-					break;
-				case "cardholder":
-					Role cardholder = roleRepository.findByName(ERole.ROLE_CARDHOLDER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(cardholder);
-					break;
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_VIEWONLY)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
+					case "fullaccess":
+						Role fullaccess = roleRepository.findByName(ERole.ROLE_FULLACCESS)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(fullaccess);
+						break;
+					case "cardholder":
+						Role cardholder = roleRepository.findByName(ERole.ROLE_CARDHOLDER)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(cardholder);
+						break;
+					default:
+						Role userRole = roleRepository.findByName(ERole.ROLE_VIEWONLY)
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(userRole);
 				}
 			});
 		}
@@ -130,7 +130,21 @@ public class AuthController {
 		user.setRoles(roles);
 		User userSaved = userRepository.save(user);
 		log.debug("User saved in database: " + user.getUsername() + user.getRoles());
-		
+
 		return ResponseEntity.ok().body(new SignupResponse(userSaved.getUsername(), userSaved.getEmail(), roles));
+	}
+
+	@PostMapping("/create-roles")
+	public String createRoles() {
+		long count = roleRepository.count();
+		if (count == 0) {
+			log.debug("No roles found in the database. Inserting them...");
+			roleRepository.save(new Role(ERole.ROLE_VIEWONLY));
+			roleRepository.save(new Role(ERole.ROLE_CARDHOLDER));
+			roleRepository.save(new Role(ERole.ROLE_FULLACCESS));
+		} else {
+			log.debug("The roles are already present in the database");
+		}
+		return "Action complete";
 	}
 }

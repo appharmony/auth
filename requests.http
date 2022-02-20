@@ -1,8 +1,25 @@
 ###Get public content
 http://localhost:8080/api/test/all
 
+### Create roles
+POST http://localhost:8080/api/auth/create-roles
+
+### Get public content from aws
+http://auth-LoadBa-CE6WE9PBOLD-581ae565c17c9e44.elb.us-east-1.amazonaws.com:8080/api/test/all
+
 ### Sign up
 POST http://localhost:8080/api/auth/signup
+content-type: application/json
+
+{
+    "username": "fa-1",
+    "email": "fa-1@example.com",
+    "password": "abc123",
+    "role": ["fullaccess"]
+}
+
+### Sign up from aws
+POST http://auth-LoadBa-CE6WE9PBOLD-581ae565c17c9e44.elb.us-east-1.amazonaws.com:8080/api/auth/signup
 content-type: application/json
 
 {

@@ -1,8 +1,8 @@
 version: '3.1'
 services:
   app:
-    container_name: app-springboot-postgresql
-    image: app-springboot-postgresql
+    container_name: auth
+    image: deepathiagarajan/auth
     build: ./
     ports:
       - "8080:8080"
