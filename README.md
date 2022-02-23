@@ -1,4 +1,12 @@
-To run the application using Docker:
+## About
+
+The Auth application provides the functionalities of authentication and authorization. The application is implemented in Java using Spring Boot. It uses Spring Security to implement JWT-based authentication and to enforce role-based authorization. Upon successful user registration with the user credentials and one or more of the available roles, the user information is persisted in Postgres database. A registered user can then login to the system by providing valid credentials with the login API, which returns the JSON Web Token (JWT) and the role(s) of the user from the database, so that the consumers of the application can use the JWT as a bearer token to access protected resources and customize their application based on the user roles.
+
+The application is packaged using Docker, making use of Docker Compose tool, which optimizes defining and running multi-container applications. The Spring Boot application and Postgres database each run in their own containers and communicate with each other using the Docker Compose configuration. The docker image for Auth application is pushed to Dockerhub.
+
+The containers are pushed to AWS Elastic Container Service (ECS), and the application is hosted in AWS. ECS enables users to run highly secure, reliable, and scalable containers. ECS provides managed container hosting and provides seamless autoscalling through AWS Fargate. Native support through AWS and Docker CLI tools facilitate pushing images to ECS.
+
+### Instructions to run the application locally using Docker:
 
 0. Install Docker desktop (which includes support for Docker and Docker compose)
    https://www.docker.com/products/docker-desktop
@@ -9,37 +17,3 @@ To run the application using Docker:
 3. Build and run the project in Docker
    `docker-compose up --build`
    This command downloads the Docker image for Postgres DB, builds and runs both the Database container and the Auth application with appropriate connectivity. The console should log that the database system is up and that the Spring Boot application is up.
-
----
-
-Postgres Management
-Start and Stop the DB server
-brew services start postgresql
-brew services stop postgresql
-brew services list
-
-Connect to postgres:
-$ psql postgres
-
-Operations
-\l -> List all databases
-\c dbname -> connect to database dbname
-\d -> list all tables
-\d tablename -> describe table
-
-After starting the application, go inside the postgres docker container and insert the roles with these steps:
-
-Find the container ID:
-docker ps
-
-Connect to container:
-docker exec -it 05b3a3471f6f bash
-
-Connect to the DB inside the container:
-root@05b3a3471f6f:/# psql -U postgres
-
-Insert the roles:
-postgres-# INSERT INTO roles(name) VALUES('ROLE_VIEWONLY') ON CONFLICT DO NOTHING;
-postgres-# INSERT INTO roles(name) VALUES('ROLE_FULLACCESS') ON CONFLICT DO NOTHING;
-postgres-# INSERT INTO roles(name) VALUES('ROLE_CARDHOLDER') ON CONFLICT DO NOTHING;
-postgres-# \q
